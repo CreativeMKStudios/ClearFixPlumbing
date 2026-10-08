@@ -1,0 +1,21 @@
+---
+import { business } from '../data/business';
+
+interface Props {
+  heading?: string;
+}
+const { heading = 'Call and tell us the problem.' } = Astro.props;
+---
+
+<section class="end-cta">
+  <p class="eyebrow">{business.city}, {business.hoursLabel.toLowerCase()}</p>
+  <h2>{heading}</h2>
+  <p>
+    <a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a>
+    or <a href={`mailto:${business.email}`}>{business.email}</a>. We talk through the cost before work starts.
+  </p>
+  <p class="paren-row">
+    <a class="paren" href={`tel:${business.phoneTel}`}>( Call now )</a>
+    <a class="paren" href="/contact">( Send a message )</a>
+  </p>
+</section>

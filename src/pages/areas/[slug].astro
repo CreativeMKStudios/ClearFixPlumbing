@@ -1,0 +1,79 @@
+---
+import Crumbs from '../../components/Crumbs.astro';
+import EndCta from '../../components/EndCta.astro';
+import FaqList from '../../components/FaqList.astro';
+import Base from '../../layouts/Base.astro';
+import { areas, getArea } from '../../data/areas';
+import { services } from '../../data/services';
+
+export function getStaticPaths() {
+  return areas.map((area) => ({ params: { slug: area.slug } }));
+}
+
+const area = getArea(Astro.params.slug ?? '');
+if (!area) {
+  throw new Error('Missing area');
+}
+
+const title = area.metaTitle;
+const description = area.description;
+const path = `/areas/${area.slug}`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Areas', path: '/areas' },
+  { name: area.name, path },
+];
+const others = areas.filter((item) => item.slug !== area.slug);
+---
+
+<Base title={title} description={description} crumbs={crumbs} faqs={area.faqs}>
+  <header class="page-hero">
+    <div class="wrap">
+      <Crumbs items={crumbs} />
+      <p class="eyebrow">Plumber near {area.name}</p>
+      <h1>Plumber in {area.name}</h1>
+      <div class="lede prose">
+        {area.intro.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <h2>Homes we see around {area.name}</h2>
+        <ul class="checks">
+          {area.homes.map((line) => <li>{line}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Help you can book</h2>
+        <ul class="checks">
+          {
+            services.map((service) => (
+              <li>
+                <a href={`/services/${service.slug}`}>{service.title}</a>. {service.summary}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <FaqList items={area.faqs} />
+      <h2>Other towns</h2>
+      <p>
+        {
+          others.map((item, index) => (
+            <span>
+              {index > 0 ? ', ' : ''}
+              <a href={`/areas/${item.slug}`}>{item.name}</a>
+            </span>
+          ))
+        }
+        .
+        <a href="/areas"> All areas.</a>
+      </p>
+      <EndCta heading={`Call if you are in ${area.name}.`} />
+    </div>
+  </section>
+</Base>

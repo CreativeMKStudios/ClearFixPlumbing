@@ -1,0 +1,46 @@
+---
+import Crumbs from '../../components/Crumbs.astro';
+import EndCta from '../../components/EndCta.astro';
+import Base from '../../layouts/Base.astro';
+import { services } from '../../data/services';
+
+const title = 'Plumbing services in Bedford | ClearFix';
+const description =
+  'Emergency plumbing, leaks, blocked drains, taps, toilets, showers, bathrooms, and heating in Bedford. Call 07345 678795.';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services' },
+];
+---
+
+<Base title={title} description={description} crumbs={crumbs}>
+  <header class="page-hero">
+    <div class="wrap">
+      <Crumbs items={crumbs} />
+      <p class="eyebrow">Bedford and nearby</p>
+      <h1>Services we actually do.</h1>
+      <p class="lede">
+        These are the jobs people call a plumber for. If yours is not on the list, call anyway and describe it.
+        We would rather say no than take a job we cannot finish.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap">
+      <ol class="service-index">
+        {
+          services.map((service) => (
+            <li>
+              <a href={`/services/${service.slug}`}>
+                <span class="index-num">{service.number}</span>
+                <strong>{service.title}</strong>
+                <span>{service.summary}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+      <EndCta />
+    </div>
+  </section>
+</Base>

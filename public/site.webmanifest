@@ -1,0 +1,24 @@
+{
+  "name": "ClearFix Plumbing & Heating",
+  "short_name": "ClearFix",
+  "description": "Bedford plumber for leaks, drains, taps, toilets, and heating. Open 24 hours.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "en-GB",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

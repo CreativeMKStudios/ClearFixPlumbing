@@ -1,0 +1,84 @@
+---
+import { Image } from 'astro:assets';
+import Crumbs from '../components/Crumbs.astro';
+import EndCta from '../components/EndCta.astro';
+import Base from '../layouts/Base.astro';
+import vans from '../assets/photos/vans.jpg';
+import { business } from '../data/business';
+
+const title = 'About ClearFix | Bedford plumber';
+const description =
+  'ClearFix Plumbing & Heating is based in Bedford and open 24 hours. Call 07345 678795 or email clearfixplumber@gmail.com.';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/about' },
+];
+---
+
+<Base title={title} description={description} crumbs={crumbs}>
+  <header class="page-hero">
+    <div class="wrap">
+      <Crumbs items={crumbs} />
+      <p class="eyebrow">{business.city}, {business.region}</p>
+      <h1>A Bedford plumber you can call.</h1>
+      <p class="lede">
+        The Google listing name is “{business.googleName}”. On the van it reads ClearFix Plumbing & Heating.
+        The phone is {business.phoneDisplay}. The email is {business.email}.
+      </p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="prose">
+        <p>
+          We are based in Bedford. The listing does not publish a street address, so we do not invent one.
+          If you need us, call or email. Do not turn up at a guessed door.
+        </p>
+        <p>
+          The work is plumbing and heating for homes: leaks, blocked sinks and toilets, taps, showers, bathroom and kitchen pipework, and radiator faults.
+          If a job needs a gas engineer, we say so. Gas work has to be done by someone on the Gas Safe register.
+        </p>
+        <p>
+          The line on the van is “{business.slogan}” That is the aim of a visit. Find the fault, explain it, agree the cost, then fix it.
+        </p>
+        <h2>How a job goes</h2>
+        <ol class="checks">
+          <li>You call {business.phoneDisplay} or email {business.email}.</li>
+          <li>We ask what is wrong and which town you are in.</li>
+          <li>We say if we can do the job.</li>
+          <li>We agree the cost before work starts.</li>
+          <li>If we find a further fault, we stop and tell you.</li>
+          <li>We tell you what we did before we leave.</li>
+        </ol>
+        <h2>What we will not claim</h2>
+        <p>
+          We do not invent years in business, staff names, awards, or a pile of reviews. The Google page shows {business.googleRating} and does not show written reviews.
+          Our photo shows the vans and the workwear. That is what we have to show.
+        </p>
+      </div>
+      <figure>
+        <Image
+          src={vans}
+          alt="Two views of the ClearFix van, side and rear, from the Google profile photo taken for the listing."
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 759px) 100vw, 46vw"
+        />
+        <figcaption class="form-note">Google profile photo, July 2026. Phone and email on the van match the listing.</figcaption>
+      </figure>
+    </div>
+    <div class="wrap">
+      <div class="standards">
+        {
+          business.standards.map((item) => (
+            <article>
+              <h2>{item.title}</h2>
+              <p>{item.text}</p>
+            </article>
+          ))
+        }
+      </div>
+      <EndCta heading="Talk to us before the water spreads." />
+    </div>
+  </section>
+</Base>

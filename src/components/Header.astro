@@ -1,0 +1,69 @@
+---
+import { business, nav } from '../data/business';
+
+const path = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
+
+function current(href: string) {
+  if (href === '/') return path === '/';
+  return path === href || path.startsWith(`${href}/`);
+}
+---
+
+<header class="site-header">
+  <div class="wrap header-bar">
+    <a class="logo" href="/" aria-label="ClearFix Plumbing and Heating, home">
+      Clear<span>Fix</span>
+    </a>
+    <nav class="desk-nav" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a href={item.href} aria-current={current(item.href) ? 'page' : undefined}>
+            <span>{item.n}.</span> {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <a class="paren desk-cta" href={`tel:${business.phoneTel}`}>( Call us )</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="sr-only">Menu</span>
+      <span class="menu-lines" aria-hidden="true"></span>
+    </button>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav" hidden aria-label="Mobile">
+    <ol>
+      {
+        nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={current(item.href) ? 'page' : undefined}>
+              <span>{item.n}</span>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+    <a class="paren" href={`tel:${business.phoneTel}`}>( Call {business.phoneDisplay} )</a>
+  </nav>
+</header>
+
+<script>
+  const button = document.querySelector('.menu-btn');
+  const nav = document.querySelector('#mobile-nav');
+  if (button instanceof HTMLButtonElement && nav instanceof HTMLElement) {
+    const close = () => {
+      button.setAttribute('aria-expanded', 'false');
+      nav.hidden = true;
+      document.body.classList.remove('nav-open');
+    };
+    button.addEventListener('click', () => {
+      const open = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', open ? 'false' : 'true');
+      nav.hidden = open;
+      document.body.classList.toggle('nav-open', !open);
+    });
+    nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') close();
+    });
+  }
+</script>
