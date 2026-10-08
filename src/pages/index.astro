@@ -1,0 +1,161 @@
+---
+import { Image } from 'astro:assets';
+import EndCta from '../components/EndCta.astro';
+import FaqList from '../components/FaqList.astro';
+import Base from '../layouts/Base.astro';
+import side from '../assets/photos/side.jpg';
+import vans from '../assets/photos/vans.jpg';
+import rear from '../assets/photos/rear.jpg';
+import crew from '../assets/photos/crew.jpg';
+import { business, homeFaqs } from '../data/business';
+import { services } from '../data/services';
+
+const title = 'Plumber in Bedford | ClearFix Plumbing & Heating';
+const description =
+  'ClearFix is a Bedford plumber for leaks, blocked drains, taps, toilets, and heating. Open 24 hours. Call 07345 678795.';
+const featured = services[0];
+const rest = services.slice(1);
+---
+
+<Base title={title} description={description} faqs={homeFaqs}>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <p class="eyebrow">Bedford, England</p>
+      <h1 class="display">Clear<span>Fix</span></h1>
+      <Image
+        src={side}
+        alt="Side of the ClearFix van, with the phone number 07345 678795 and email clearfixplumber@gmail.com."
+        widths={[480, 768, 985]}
+        sizes="(max-width: 759px) 100vw, 38vw"
+        loading="eager"
+        fetchpriority="high"
+        class="hero-photo"
+      />
+      <p class="phone-line">
+        We are just a phone call away —
+        <a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a>
+      </p>
+      <p class="lede">
+        ClearFix is a plumber in Bedford. We fix leaks, blocked drains, taps, toilets, showers, and heating problems.
+        Call when the water will not wait. We are open 24 hours.
+      </p>
+      <a class="paren scroll-link" href="#services">( Scroll down )</a>
+    </div>
+  </section>
+
+  <section class="band" id="work">
+    <Image
+      src={vans}
+      alt="ClearFix plumbing and heating vans, side and rear, from the Google profile photo."
+      widths={[640, 960, 1400]}
+      sizes="100vw"
+      class="band-img"
+    />
+    <div class="band-copy">
+      <p>
+        We are ready when a pipe splits or a toilet will not clear. Call {business.phoneDisplay}. We are open 24 hours.
+        Tell us the fault and the town. We talk through the cost before we start.
+      </p>
+      <p class="paren-row">
+        <a class="paren" href="/about">( Learn more )</a>
+        <a class="paren" href={`tel:${business.phoneTel}`}>( Call us )</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Services</p>
+        <h2>Plumbing and heating, in plain jobs.</h2>
+      </div>
+      <article class="feature split">
+        <div>
+          <p class="num">{featured.number}</p>
+          <h2>{featured.title}</h2>
+          <p>{featured.summary}</p>
+          <p class="paren-row">
+            <a class="paren" href={`/services/${featured.slug}`}>( See this job )</a>
+          </p>
+        </div>
+        <Image
+          src={rear}
+          alt="Rear doors of the ClearFix van, marked plumbing and heating, with the phone number 07345 678795."
+          widths={[400, 700]}
+          sizes="(max-width: 759px) 100vw, 42vw"
+          class="feature-photo"
+        />
+      </article>
+      <ol class="service-index">
+        {
+          rest.map((service) => (
+            <li>
+              <a href={`/services/${service.slug}`}>
+                <span class="index-num">{service.number}</span>
+                <strong>{service.title}</strong>
+                <span>{service.summary}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section reviews" id="reviews">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Google · {business.city}</p>
+        <h2>What the listing shows.</h2>
+      </div>
+      <div class="review-grid">
+        <article class="review-card">
+          <p>Google shows ClearFix at {business.googleRating}. The public listing has no written reviews for us to quote.</p>
+          <p class="who">
+            <a href={business.mapUrl} rel="noopener noreferrer">Open the Google listing</a>
+          </p>
+        </article>
+        <article class="review-card">
+          <p>If we have done a job for you, a Google review helps the next household in Bedford. We do not write reviews for customers.</p>
+          <p class="who">
+            <a href="/reviews">How reviews work</a>
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="why">
+    <div class="wrap why-layout">
+      <div>
+        <p class="eyebrow">On the van</p>
+        <h2>Why call ClearFix?</h2>
+        <p class="lede">
+          These four lines are printed on our own van photo. They are our standard, not a customer’s words.
+        </p>
+      </div>
+      <Image
+        src={crew}
+        alt="Navy work jacket and polo shirt printed with the ClearFix Plumbing and Heating logo."
+        widths={[420, 700]}
+        sizes="(max-width: 1039px) 100vw, 40vw"
+        class="why-photo"
+      />
+      <div class="standards">
+        {
+          business.standards.map((item) => (
+            <article>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <FaqList items={homeFaqs} title="Before you call" />
+    <EndCta />
+  </div>
+</Base>

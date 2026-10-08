@@ -1,0 +1,57 @@
+---
+import Crumbs from '../components/Crumbs.astro';
+import EndCta from '../components/EndCta.astro';
+import Base from '../layouts/Base.astro';
+import { business } from '../data/business';
+
+const title = 'Google reviews | ClearFix Bedford';
+const description =
+  'ClearFix shows 5.0 on Google. The public listing has no written reviews yet. Call 07345 678795 for plumbing in Bedford.';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Reviews', path: '/reviews' },
+];
+---
+
+<Base title={title} description={description} crumbs={crumbs}>
+  <header class="page-hero">
+    <div class="wrap">
+      <Crumbs items={crumbs} />
+      <p class="eyebrow">Checked {business.checkedOn}</p>
+      <h1>Reviews, without made-up quotes.</h1>
+      <p class="lede">
+        Google shows {business.name} at {business.googleRating}. On {business.checkedOn} the public listing did not show any written reviews.
+        We will not put a customer’s name, or a sentence they did not write, on this site.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap">
+      <div class="review-grid">
+        <article class="review-card">
+          <p>Score on the Google listing: {business.googleRating}.</p>
+          <p class="who">No review count and no written review text were public when this page was built.</p>
+        </article>
+        <article class="review-card">
+          <p>Google also says new posts are limited for this type of place. If the button works for you, a real review belongs on Google, not only in our inbox.</p>
+          <p class="who">
+            <a href={business.mapUrl} rel="noopener noreferrer">Open the Google listing</a>
+          </p>
+        </article>
+      </div>
+      <div class="prose">
+        <h2>What we do publish</h2>
+        <p>
+          The van carries four lines: reliable, on time, quality workmanship, and clear communication.
+          Those are our own words. They are not testimonials. You can read them on the <a href="/about">about page</a>.
+        </p>
+        <h2>If we have been to your house</h2>
+        <p>
+          A short Google review, in your own words, is the useful one. Say what the job was and whether we turned up when we said.
+          Please do not send us a review to paste here. We would rather point people to Google.
+        </p>
+      </div>
+      <EndCta heading="Need the work done before a review?" />
+    </div>
+  </section>
+</Base>

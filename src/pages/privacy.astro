@@ -1,0 +1,58 @@
+---
+import Crumbs from '../components/Crumbs.astro';
+import Base from '../layouts/Base.astro';
+import { business } from '../data/business';
+
+const title = 'Privacy notice | ClearFix Plumbing & Heating';
+const description =
+  'How ClearFix Plumbing & Heating handles calls, emails, and this website. We do not sell personal information.';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Privacy', path: '/privacy' },
+];
+---
+
+<Base title={title} description={description} crumbs={crumbs}>
+  <header class="page-hero">
+    <div class="wrap">
+      <Crumbs items={crumbs} />
+      <p class="eyebrow">Plain privacy notice</p>
+      <h1>What happens to your details.</h1>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap prose">
+      <p>
+        {business.name} is the name on this site. The Google listing uses “{business.googleName}”.
+        We are based in Bedford. Contact us on {business.phoneDisplay} or {business.email}.
+        We have not published a company number because one is not shown on the listing.
+      </p>
+      <h2>Calls and emails</h2>
+      <p>
+        If you call, we use your number to ring you back about the job. If you email, we use the message to reply and to book the work.
+        We keep what we need for the job, the invoice, and any complaint. We do not sell your details.
+      </p>
+      <h2>The form on this site</h2>
+      <p>
+        The contact form does not send data to our server. It opens your email app with the message addressed to {business.email}.
+        If your email app does not open, nothing has been sent. Call us instead.
+      </p>
+      <h2>Cookies and the map</h2>
+      <p>
+        This site does not set analytics cookies and does not run ads. The map stays off until you press “Show the map”.
+        Google may then set its own cookies. You can use the text link to the listing instead.
+      </p>
+      <h2>Hosting logs</h2>
+      <p>
+        The company that hosts the site may keep ordinary connection logs, such as the page you asked for and the time.
+        We do not use those logs to build a profile of you.
+      </p>
+      <h2>Your rights</h2>
+      <p>
+        You can ask what details we hold, ask us to correct them, or ask us to delete them when we no longer need them for the job or the accounts.
+        Email {business.email} or call {business.phoneDisplay}. If you are not happy with the reply, you can contact the ICO at ico.org.uk.
+      </p>
+      <p>This notice was written on {business.checkedOn}.</p>
+    </div>
+  </section>
+</Base>

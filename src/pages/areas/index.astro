@@ -1,0 +1,57 @@
+---
+import Crumbs from '../../components/Crumbs.astro';
+import EndCta from '../../components/EndCta.astro';
+import Base from '../../layouts/Base.astro';
+import { areas, otherTowns } from '../../data/areas';
+
+const title = 'Areas we cover around Bedford | ClearFix';
+const description =
+  'ClearFix is a Bedford plumber and works in nearby towns, including Kempston, Wixams, Bromham, Great Denham, and Clapham.';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Areas', path: '/areas' },
+];
+---
+
+<Base title={title} description={description} crumbs={crumbs}>
+  <header class="page-hero">
+    <div class="wrap">
+      <Crumbs items={crumbs} />
+      <p class="eyebrow">Local coverage</p>
+      <h1>Bedford and the towns next to it.</h1>
+      <p class="lede">
+        We are based in Bedford. We work in the town and in places close by. If your town is not named, call
+        07345 678795 and ask. We would rather confirm than pretend we cover every village in the county.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap">
+      <ol class="area-index">
+        {
+          areas.map((area) => (
+            <li>
+              <a class="row" href={`/areas/${area.slug}`}>
+                <span class="index-num">Town</span>
+                <strong>{area.name}</strong>
+                <span>{area.intro[0]}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+      <h2>Also nearby</h2>
+      <ul class="town-list">
+        {
+          otherTowns.map((town) => (
+            <li>
+              <strong>{town.name}</strong>
+              <span>{town.note}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <EndCta heading="Tell us the town when you call." />
+    </div>
+  </section>
+</Base>

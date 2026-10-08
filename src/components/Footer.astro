@@ -1,0 +1,76 @@
+---
+import { areas, otherTowns } from '../data/areas';
+import { business, nav } from '../data/business';
+import { services } from '../data/services';
+---
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <p class="logo">Clear<span>Fix</span></p>
+      <p class="footer-slogan">{business.slogan}</p>
+      <p>
+        {business.googleName}. Bedford plumber. {business.hoursLabel}.
+      </p>
+    </div>
+    <div>
+      <h2>Contact</h2>
+      <address>
+        <a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a><br />
+        <a href={`mailto:${business.email}`}>{business.email}</a><br />
+        {business.city}, {business.region}<br />
+        {business.hoursLabel}
+      </address>
+      <p>
+        <a href={business.mapUrl} rel="noopener noreferrer">Google listing</a>
+      </p>
+    </div>
+    <div>
+      <h2>Pages</h2>
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Services</h2>
+      <ul>
+        {
+          services.map((service) => (
+            <li>
+              <a href={`/services/${service.slug}`}>{service.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-areas">
+    <h2>Towns</h2>
+    <p>
+      {
+        areas.map((area, index) => (
+          <span>
+            {index > 0 ? ', ' : ''}
+            <a href={`/areas/${area.slug}`}>{area.name}</a>
+          </span>
+        ))
+      }
+      {'. '}
+      Also nearby: {otherTowns.map((town) => town.name).join(', ')}.
+    </p>
+  </div>
+  <div class="wrap footer-base">
+    <p>
+      Phone, hours, and place checked against the Google listing on {business.checkedOn}. No street
+      address is published on that listing.
+    </p>
+    <p>© {new Date().getFullYear()} {business.name}</p>
+  </div>
+</footer>

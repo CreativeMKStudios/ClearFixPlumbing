@@ -1,0 +1,102 @@
+---
+import { Image } from 'astro:assets';
+import Crumbs from '../components/Crumbs.astro';
+import EndCta from '../components/EndCta.astro';
+import Base from '../layouts/Base.astro';
+import profile from '../assets/photos/profile.jpg';
+import side from '../assets/photos/side.jpg';
+import rear from '../assets/photos/rear.jpg';
+import bonnet from '../assets/photos/bonnet.jpg';
+import door from '../assets/photos/door.jpg';
+import crew from '../assets/photos/crew.jpg';
+import logo from '../assets/photos/logo.jpg';
+
+const title = 'ClearFix vans and workwear | Projects';
+const description =
+  'Photos from the ClearFix Google profile: the vans, the logo, and the workwear. Bedford plumber, open 24 hours.';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Projects', path: '/projects' },
+];
+
+const shots = [
+  {
+    src: profile,
+    wide: true,
+    alt: 'Full ClearFix Google profile photo, with the vans, logo, workwear, and the line Clear solutions. Fixed properly.',
+    caption: 'The whole Google profile photo, uploaded July 2026. This is the only image on the listing.',
+  },
+  {
+    src: side,
+    wide: false,
+    alt: 'Side of the white and navy ClearFix Transit van, with phone and email on the lower panel.',
+    caption: 'Side of the van. The phone and email match the ones we publish.',
+  },
+  {
+    src: rear,
+    wide: false,
+    alt: 'Rear of the ClearFix van, with plumbing and heating on the doors.',
+    caption: 'Rear doors. Plumbing on the left, heating on the right.',
+  },
+  {
+    src: door,
+    wide: false,
+    alt: 'ClearFix logo on the front door of the van.',
+    caption: 'Door logo: a pipe form, a tick, and a drop.',
+  },
+  {
+    src: bonnet,
+    wide: false,
+    alt: 'ClearFix mark on the bonnet of the van, above the Ford grille.',
+    caption: 'The same mark on the bonnet.',
+  },
+  {
+    src: crew,
+    wide: false,
+    alt: 'Navy fleece and polo shirt with the ClearFix logo.',
+    caption: 'Workwear from the same photo. No staff names are published.',
+  },
+  {
+    src: logo,
+    wide: false,
+    alt: 'ClearFix Plumbing and Heating wordmark on a dark background.',
+    caption: 'The wordmark used on the van and on this site.',
+  },
+];
+---
+
+<Base title={title} description={description} crumbs={crumbs}>
+  <header class="page-hero">
+    <div class="wrap">
+      <Crumbs items={crumbs} />
+      <p class="eyebrow">From the Google profile</p>
+      <h1>The vans, not made-up jobs.</h1>
+      <p class="lede">
+        The Google listing has one photo. It shows the ClearFix vans, the logo, and the workwear.
+        It does not show finished bathrooms or named houses, so we do not invent them.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap">
+      <div class="gallery">
+        {
+          shots.map((shot) => (
+            <figure class={shot.wide ? 'wide' : undefined}>
+              <Image src={shot.src} alt={shot.alt} widths={[480, 800, 1200]} sizes={shot.wide ? '100vw' : '(max-width: 759px) 100vw, 48vw'} />
+              <figcaption>{shot.caption}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+      <div class="prose">
+        <h2>Work the van is set up for</h2>
+        <p>
+          Leaks, blocked sinks and toilets, taps, showers, bathroom and kitchen plumbing, and heating pipes and radiators.
+          When a customer is happy for us to photograph a finished repair, we can add it here. Until then, this page stays honest.
+        </p>
+      </div>
+      <EndCta heading="Need a plumber, not a gallery?" />
+    </div>
+  </section>
+</Base>

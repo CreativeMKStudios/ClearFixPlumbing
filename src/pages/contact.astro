@@ -1,0 +1,124 @@
+---
+import Crumbs from '../components/Crumbs.astro';
+import Base from '../layouts/Base.astro';
+import { areas } from '../data/areas';
+import { business } from '../data/business';
+
+const title = 'Contact a Bedford plumber | ClearFix';
+const description =
+  'Call ClearFix on 07345 678795, any time. Email clearfixplumber@gmail.com. Based in Bedford and open 24 hours.';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Contact', path: '/contact' },
+];
+---
+
+<Base title={title} description={description} crumbs={crumbs}>
+  <header class="page-hero">
+    <div class="wrap">
+      <Crumbs items={crumbs} />
+      <p class="eyebrow">{business.hoursLabel}</p>
+      <h1>Call, or send the details.</h1>
+      <p class="lede">
+        If water is running, call <a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a>.
+        The form opens an email to {business.email}. This site does not store the message.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap contact-grid">
+      <div class="stack">
+        <h2>Direct</h2>
+        <p class="phone-line"><a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a></p>
+        <p><a href={`mailto:${business.email}`}>{business.email}</a></p>
+        <p>{business.city}, {business.region}. {business.hoursLabel}.</p>
+        <p>
+          No street address is on the Google listing, so we do not print one. Use the phone, the email, or the map link.
+        </p>
+        <p><a href={business.mapUrl} rel="noopener noreferrer">Open the Google listing</a></p>
+        <div class="map-slot" id="map-slot">
+          <div>
+            <p>The map loads from Google only after you ask for it.</p>
+            <button class="send" type="button" id="show-map">Show the map</button>
+          </div>
+        </div>
+      </div>
+      <form class="form" id="contact-form" action={`mailto:${business.email}`} method="post" enctype="text/plain">
+        <p class="form-note">Required fields are marked. A call is faster for a leak.</p>
+        <label>
+          Name
+          <input name="name" autocomplete="name" required />
+        </label>
+        <label>
+          Phone
+          <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+        </label>
+        <label>
+          Town
+          <input name="town" autocomplete="address-level2" list="towns" required />
+        </label>
+        <datalist id="towns">
+          {areas.map((area) => <option value={area.name} />)}
+        </datalist>
+        <label>
+          What is wrong?
+          <select name="job" required>
+            <option value="">Choose one</option>
+            <option>Leak or burst pipe</option>
+            <option>Blocked sink, toilet, or drain</option>
+            <option>Tap, toilet, or shower</option>
+            <option>Bathroom or kitchen plumbing</option>
+            <option>Radiator or heating</option>
+            <option>Something else</option>
+          </select>
+        </label>
+        <label>
+          Message
+          <textarea name="message" required></textarea>
+        </label>
+        <label class="hp">
+          Company website
+          <input name="company" tabindex="-1" autocomplete="off" />
+        </label>
+        <button class="send" type="submit">Send message</button>
+        <p class="form-status" id="form-status" role="status"></p>
+        <noscript>
+          <p>Email <a href={`mailto:${business.email}`}>{business.email}</a> if the button does not open your mail app.</p>
+        </noscript>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script define:vars={{ email: business.email, mapUrl: `https://maps.google.com/maps?q=${encodeURIComponent(business.googleName)}&ll=${business.geo.latitude},${business.geo.longitude}&z=14&output=embed` }}>
+  const form = document.querySelector('#contact-form');
+  const status = document.querySelector('#form-status');
+  if (form instanceof HTMLFormElement && status) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      if (String(data.get('company') || '').trim()) return;
+      const name = String(data.get('name') || '').trim();
+      const phone = String(data.get('phone') || '').trim();
+      const town = String(data.get('town') || '').trim();
+      const job = String(data.get('job') || '').trim();
+      const message = String(data.get('message') || '').trim();
+      const body = [`Name: ${name}`, `Phone: ${phone}`, `Town: ${town}`, `Job: ${job}`, '', message].join('\n');
+      const href = `mailto:${email}?subject=${encodeURIComponent(`Plumbing enquiry from ${name}`)}&body=${encodeURIComponent(body)}`;
+      status.textContent = 'Your email app should open. If it does not, call 07345 678795.';
+      window.location.href = href;
+    });
+  }
+
+  const showMap = document.querySelector('#show-map');
+  const slot = document.querySelector('#map-slot');
+  showMap?.addEventListener('click', () => {
+    if (!(slot instanceof HTMLElement)) return;
+    const frame = document.createElement('iframe');
+    frame.title = 'Map of ClearFix Plumbing and Heating in Bedford';
+    frame.src = mapUrl;
+    frame.loading = 'lazy';
+    frame.referrerPolicy = 'no-referrer-when-downgrade';
+    slot.replaceChildren(frame);
+  });
+</script>

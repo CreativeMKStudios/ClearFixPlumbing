@@ -1,0 +1,90 @@
+---
+import Crumbs from '../../components/Crumbs.astro';
+import EndCta from '../../components/EndCta.astro';
+import FaqList from '../../components/FaqList.astro';
+import Base from '../../layouts/Base.astro';
+import { areas } from '../../data/areas';
+import { getService, services } from '../../data/services';
+import { serviceNode } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug } }));
+}
+
+const { slug } = Astro.params;
+const service = getService(slug ?? '');
+if (!service) {
+  throw new Error(`Missing service: ${slug}`);
+}
+
+const related = service.related.map((item) => getService(item)).filter((item) => item !== undefined);
+const title = service.metaTitle;
+const description = service.description;
+const path = `/services/${service.slug}`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services' },
+  { name: service.title, path },
+];
+const site = Astro.site ?? new URL('https://clearfixplumber.co.uk');
+const extra = [serviceNode(site, path, service.title, service.description)];
+---
+
+<Base title={title} description={description} crumbs={crumbs} faqs={service.faqs} extra={extra}>
+  <header class="page-hero">
+    <div class="wrap">
+      <Crumbs items={crumbs} />
+      <p class="eyebrow">Service {service.number}</p>
+      <h1>{service.title} in Bedford</h1>
+      <div class="lede prose">
+        {service.intro.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <h2>Jobs we take</h2>
+        <ul class="checks">
+          {service.jobs.map((job) => <li>{job}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Before we arrive</h2>
+        <ul class="checks">
+          {service.before.map((step) => <li>{step}</li>)}
+        </ul>
+        {service.note && <p class="note">{service.note}</p>}
+      </div>
+    </div>
+    <div class="wrap">
+      <FaqList items={service.faqs} />
+      <h2>Other work</h2>
+      <ul class="service-index">
+        {
+          related.map((item) => (
+            <li>
+              <a href={`/services/${item.slug}`}>
+                <span class="index-num">{item.number}</span>
+                <strong>{item.title}</strong>
+                <span>{item.summary}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="note">
+        We cover Bedford and nearby towns, including{' '}
+        {areas.slice(0, 4).map((area, index) => (
+          <span>
+            {index > 0 ? ', ' : ''}
+            <a href={`/areas/${area.slug}`}>{area.name}</a>
+          </span>
+        ))}
+        .
+        <a href="/areas"> See all areas.</a>
+      </p>
+      <EndCta />
+    </div>
+  </section>
+</Base>
